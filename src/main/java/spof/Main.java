@@ -52,5 +52,9 @@ public class Main {
         for (Node node: SPFs) {
             System.out.println(node);
         }
+        List<Integer> SPFsubnets = graph.getNumSubnets();
+        for (Integer subnet: SPFsubnets) {
+            System.out.println(subnet);
+        }
     }
 }
