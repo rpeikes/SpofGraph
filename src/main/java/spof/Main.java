@@ -49,12 +49,11 @@ public class Main {
 
         Graph graph = new Graph(nodes);
         List<Node> SPFs = graph.findSPF();
-        for (Node node: SPFs) {
-            System.out.println(node);
-        }
         List<Integer> SPFsubnets = graph.getNumSubnets();
-        for (Integer subnet: SPFsubnets) {
-            System.out.println(subnet);
+
+        for (int i = 0; i < SPFs.size(); i++) {
+            System.out.println("SPF" + i + ": " + SPFs.get(i));
+            System.out.println("SUBNET" + i + ": " + SPFsubnets.get(i));
         }
     }
 }
