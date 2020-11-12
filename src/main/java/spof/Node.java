@@ -5,24 +5,22 @@ import java.util.List;
 import java.util.Objects;
 
 public class Node {
+    private String name;
+    private List<Node> connections = new ArrayList<Node>();
+    public Node(String name, List<Node> connections) {
+
+        this.name = name;
+        this.connections = connections;
+    }
+    public Node(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
 
-    private String name;
-
     public void setConnections(List<Node> connections) {
-        this.connections = connections;
-    }
-
-    private List<Node> connections = new ArrayList<Node>();
-
-    public Node(String name) {
-        this.name = name;
-    }
-    public Node(String name, List<Node> connections) {
-
-        this.name = name;
         this.connections = connections;
     }
 
@@ -54,6 +52,5 @@ public class Node {
     public String toString() {
         return name;
     }
-
-
+    
 }
