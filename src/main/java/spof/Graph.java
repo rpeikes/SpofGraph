@@ -66,6 +66,7 @@ public class Graph {
         List<List<List<Node>>> allSPFpaths = new ArrayList<>();
 
         //traverse graph from each node without the spf
+        //save paths in a list
         for (Node spf : SPFs) {
             List<Node> testList = new ArrayList<>();
             List<List<Node>> paths = new ArrayList<>();
@@ -78,7 +79,6 @@ public class Graph {
                 testNode.getConnections().remove(spf);
             }
             for (int index = 0; index <testList.size() ;index ++) {
-                //int index = 0;
                 List<Node> visited = new ArrayList<>();
                 Stack<Node> stack = new Stack<>();
                 stack.push(testList.get(index));

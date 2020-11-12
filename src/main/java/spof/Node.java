@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Node implements Comparable<Node> {
+public class Node {
     public String getName() {
         return name;
     }
@@ -55,8 +55,5 @@ public class Node implements Comparable<Node> {
         return name;
     }
 
-    @Override
-    public int compareTo(Node o) {
-        return Integer.parseInt(this.name) - Integer.parseInt(o.getName());
-    }
+
 }
