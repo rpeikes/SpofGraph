@@ -29,16 +29,22 @@ public class Graph {
 
     public List<Node> findSPF() {
         List<Node> SPFs = new ArrayList<>();
+
+
         for (Node node : nodes) {
             List<Node> testList = new ArrayList<>();
+            //make deep copy of graph
             for (Node nodeA : nodes) {
                 List<Node> connection = new ArrayList<>(nodeA.getConnections());
                 testList.add(new Node(nodeA.getName(), connection));
             }
+
+            //remove specified node
             testList.remove(node);
             for (Node testNode : testList) {
                 testNode.getConnections().remove(node);
             }
+            //traverse graph without specified node
             int index = 0;
             List<Node> visited = new ArrayList<>();
             Stack<Node> stack = new Stack<>();
@@ -53,6 +59,7 @@ public class Graph {
                 }
 
             }
+            //add node to SPFs if traversal did not visit every node
             if (visited.size() < testList.size()) {
                 SPFs.add(node);
 
@@ -70,14 +77,20 @@ public class Graph {
         for (Node spf : SPFs) {
             List<Node> testList = new ArrayList<>();
             List<List<Node>> paths = new ArrayList<>();
+
+            //deep copy of Graph
             for (Node node : nodes) {
                 List<Node> connection = new ArrayList<>(node.getConnections());
                 testList.add(new Node(node.getName(), connection));
             }
+            //remove specified SPF from Graph copy
             testList.remove(spf);
             for (Node testNode : testList) {
                 testNode.getConnections().remove(spf);
             }
+
+            //traverse graph from each node without the spf
+            //save paths in a list
             for (int index = 0; index <testList.size() ;index ++) {
                 List<Node> visited = new ArrayList<>();
                 Stack<Node> stack = new Stack<>();
@@ -95,7 +108,7 @@ public class Graph {
             }
             allSPFpaths.add(paths);
         }
-        //remove duplicates from list
+        //remove duplicates from paths
         List<Integer> SPFnumSubnets = new ArrayList<>();
         for (List<List<Node>> paths : allSPFpaths) {
             List<List<Node>> noDuplicates = new ArrayList<>();
@@ -111,12 +124,12 @@ public class Graph {
                     noDuplicates.add(path);
                 }
             }
-
+            //add size of paths without duplicates to list
             int pathSize = noDuplicates.size();
             SPFnumSubnets.add(pathSize);
 
         }
-        //return size
+        //return list of sizes
         return SPFnumSubnets;
     }
 }
