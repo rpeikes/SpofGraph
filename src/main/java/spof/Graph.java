@@ -5,12 +5,28 @@ import java.util.*;
 public class Graph {
     private List<Node> nodes;
 
-    private Graph(List<Node> nodes) {
+    public Graph(List<Node> nodes) {
         this.nodes = nodes;
     }
 
     private List<Node> traverseSubnet(List<Node> subnet) {
         int index = 0;
+        List<Node> visited = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+        stack.push(subnet.get(index));
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            if (!visited.contains(current)) {
+                visited.add(current);
+                for (Node node : subnet.get(subnet.indexOf(current)).getConnections()) {
+                    stack.push(node);
+                }
+            }
+
+        }
+        return visited;
+    }
+    private List<Node> traverseSubnet(List<Node> subnet, int index) {
         List<Node> visited = new ArrayList<>();
         Stack<Node> stack = new Stack<>();
         stack.push(subnet.get(index));
@@ -54,7 +70,6 @@ public class Graph {
             //traverse graph without specified node and add node to SPFs if traversal did not visit every node
             if (getSubnetSize(testList) < testList.size()) {
                 SPFs.add(node);
-
             }
         }
         return SPFs;
@@ -84,20 +99,9 @@ public class Graph {
             //traverse graph from each node without the spf
             //save paths in a list
             for (int index = 0; index < testList.size(); index++) {
-                List<Node> visited = new ArrayList<>();
-                Stack<Node> stack = new Stack<>();
-                stack.push(testList.get(index));
-                while (!stack.isEmpty()) {
-                    Node current = stack.pop();
-                    if (!visited.contains(current)) {
-                        visited.add(current);
-                        for (Node connection : testList.get(testList.indexOf(current)).getConnections()) {
-                            stack.push(connection);
-                        }
-                    }
-                }
-                if (!paths.contains(visited)) {
-                    paths.add(visited);
+
+                if (!paths.contains(traverseSubnet(testList,index))) {
+                    paths.add(traverseSubnet(testList,index));
                 }
 
             }
