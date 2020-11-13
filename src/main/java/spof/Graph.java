@@ -9,6 +9,23 @@ public class Graph {
         this.nodes = nodes;
     }
 
+    private int getSubnetSize(int index, List<Node> graph) {
+        List<Node> visited = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+        stack.push(graph.get(index));
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            if (!visited.contains(current)) {
+                visited.add(current);
+                for (Node node : graph.get(graph.indexOf(current)).getConnections()) {
+                    stack.push(node);
+                }
+            }
+
+        }
+        return visited.size();
+    }
+
     public List<Node> traverseGraph() {
         int index = 0;
         List<Node> visited = new ArrayList<>();
@@ -30,7 +47,6 @@ public class Graph {
     public List<Node> findSPF() {
         List<Node> SPFs = new ArrayList<>();
 
-
         for (Node node : nodes) {
             List<Node> testList = new ArrayList<>();
             //make deep copy of graph
@@ -44,23 +60,9 @@ public class Graph {
             for (Node testNode : testList) {
                 testNode.getConnections().remove(node);
             }
-            //traverse graph without specified node
+            //traverse graph without specified node and add node to SPFs if traversal did not visit every node
             int index = 0;
-            List<Node> visited = new ArrayList<>();
-            Stack<Node> stack = new Stack<>();
-            stack.push(testList.get(index));
-            while (!stack.isEmpty()) {
-                Node current = stack.pop();
-                if (!visited.contains(current)) {
-                    visited.add(current);
-                    for (Node connection : testList.get(testList.indexOf(current)).getConnections()) {
-                        stack.push(connection);
-                    }
-                }
-
-            }
-            //add node to SPFs if traversal did not visit every node
-            if (visited.size() < testList.size()) {
+                if (getSubnetSize(index, testList) < testList.size()) {
                 SPFs.add(node);
 
             }
@@ -111,12 +113,10 @@ public class Graph {
             }
             allSPFpaths.add(paths);
         }
-        //remove duplicates from paths
+        //write list of unique paths
         List<Integer> SPFnumSubnets = new ArrayList<>();
         for (List<List<Node>> path : allSPFpaths) {
-            //add size of paths without duplicates to list
             SPFnumSubnets.add(allSPFpaths.size());
-
         }
         //return list of sizes
         return SPFnumSubnets;
