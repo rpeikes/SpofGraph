@@ -9,6 +9,12 @@ public class Graph {
         this.nodes = nodes;
     }
 
+    private void removeNode(Node node, List<Node> subnet){
+        subnet.remove(node);
+        for (Node testNode : subnet) {
+            testNode.getConnections().remove(node);
+        }
+    }
     private List<Node> traverseSubnet(List<Node> subnet) {
         int index = 0;
         List<Node> visited = new ArrayList<>();
@@ -63,10 +69,8 @@ public class Graph {
             }
 
             //remove specified node
-            testList.remove(node);
-            for (Node testNode : testList) {
-                testNode.getConnections().remove(node);
-            }
+            removeNode(node,testList);
+
             //traverse graph without specified node and add node to SPFs if traversal did not visit every node
             if (getSubnetSize(testList) < testList.size()) {
                 SPFs.add(node);
@@ -91,10 +95,7 @@ public class Graph {
                 testList.add(new Node(node.getName(), connection));
             }
             //remove specified SPF from Graph copy
-            testList.remove(spf);
-            for (Node testNode : testList) {
-                testNode.getConnections().remove(spf);
-            }
+            removeNode(spf,testList);
 
             //traverse graph from each node without the spf
             //save paths in a list
