@@ -9,16 +9,38 @@ public class Graph {
         this.nodes = nodes;
     }
 
-    public List<Node> traverseGraph() {
+    private void removeNode(Node node, List<Node> subnet){
+        subnet.remove(node);
+        for (Node testNode : subnet) {
+            testNode.getConnections().remove(node);
+        }
+    }
+    private List<Node> traverseSubnet(List<Node> subnet) {
         int index = 0;
         List<Node> visited = new ArrayList<>();
         Stack<Node> stack = new Stack<>();
-        stack.push(nodes.get(index));
+        stack.push(subnet.get(index));
         while (!stack.isEmpty()) {
             Node current = stack.pop();
             if (!visited.contains(current)) {
                 visited.add(current);
-                for (Node node : current.getConnections()) {
+                for (Node node : subnet.get(subnet.indexOf(current)).getConnections()) {
+                    stack.push(node);
+                }
+            }
+
+        }
+        return visited;
+    }
+    private List<Node> traverseSubnet(List<Node> subnet, int index) {
+        List<Node> visited = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+        stack.push(subnet.get(index));
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            if (!visited.contains(current)) {
+                visited.add(current);
+                for (Node node : subnet.get(subnet.indexOf(current)).getConnections()) {
                     stack.push(node);
                 }
             }
@@ -27,9 +49,16 @@ public class Graph {
         return visited;
     }
 
+    private int getSubnetSize(List<Node> graph) {
+        return traverseSubnet(graph).size();
+    }
+
+    public List<Node> traverseGraph() {
+        return traverseSubnet(nodes);
+    }
+
     public List<Node> findSPF() {
         List<Node> SPFs = new ArrayList<>();
-
 
         for (Node node : nodes) {
             List<Node> testList = new ArrayList<>();
@@ -40,29 +69,11 @@ public class Graph {
             }
 
             //remove specified node
-            testList.remove(node);
-            for (Node testNode : testList) {
-                testNode.getConnections().remove(node);
-            }
-            //traverse graph without specified node
-            int index = 0;
-            List<Node> visited = new ArrayList<>();
-            Stack<Node> stack = new Stack<>();
-            stack.push(testList.get(index));
-            while (!stack.isEmpty()) {
-                Node current = stack.pop();
-                if (!visited.contains(current)) {
-                    visited.add(current);
-                    for (Node connection : testList.get(testList.indexOf(current)).getConnections()) {
-                        stack.push(connection);
-                    }
-                }
+            removeNode(node,testList);
 
-            }
-            //add node to SPFs if traversal did not visit every node
-            if (visited.size() < testList.size()) {
+            //traverse graph without specified node and add node to SPFs if traversal did not visit every node
+            if (getSubnetSize(testList) < testList.size()) {
                 SPFs.add(node);
-
             }
         }
         return SPFs;
@@ -84,50 +95,23 @@ public class Graph {
                 testList.add(new Node(node.getName(), connection));
             }
             //remove specified SPF from Graph copy
-            testList.remove(spf);
-            for (Node testNode : testList) {
-                testNode.getConnections().remove(spf);
-            }
+            removeNode(spf,testList);
 
             //traverse graph from each node without the spf
             //save paths in a list
-            for (int index = 0; index <testList.size() ;index ++) {
-                List<Node> visited = new ArrayList<>();
-                Stack<Node> stack = new Stack<>();
-                stack.push(testList.get(index));
-                while (!stack.isEmpty()) {
-                    Node current = stack.pop();
-                    if (!visited.contains(current)) {
-                        visited.add(current);
-                        for (Node connection : testList.get(testList.indexOf(current)).getConnections()) {
-                            stack.push(connection);
-                        }
-                    }
+            for (int index = 0; index < testList.size(); index++) {
+
+                if (!paths.contains(traverseSubnet(testList,index))) {
+                    paths.add(traverseSubnet(testList,index));
                 }
-                paths.add(visited);
+
             }
             allSPFpaths.add(paths);
         }
-        //remove duplicates from paths
+        //write list of unique paths
         List<Integer> SPFnumSubnets = new ArrayList<>();
-        for (List<List<Node>> paths : allSPFpaths) {
-            List<List<Node>> noDuplicates = new ArrayList<>();
-            noDuplicates.add(paths.get(0));
-            for (List<Node> path : paths) {
-                int doubles = 0;
-                for (List<Node> temp: noDuplicates) {
-                    if(temp.containsAll(path)) {
-                        doubles ++;
-                    }
-                }
-                if (doubles == 0) {
-                    noDuplicates.add(path);
-                }
-            }
-            //add size of paths without duplicates to list
-            int pathSize = noDuplicates.size();
-            SPFnumSubnets.add(pathSize);
-
+        for (List<List<Node>> path : allSPFpaths) {
+            SPFnumSubnets.add(allSPFpaths.size());
         }
         //return list of sizes
         return SPFnumSubnets;
