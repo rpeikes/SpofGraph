@@ -5,43 +5,34 @@ import java.util.*;
 public class Graph {
     private List<Node> nodes;
 
-    public Graph(List<Node> nodes) {
+    private Graph(List<Node> nodes) {
         this.nodes = nodes;
     }
 
-    private int getSubnetSize(int index, List<Node> graph) {
-        List<Node> visited = new ArrayList<>();
-        Stack<Node> stack = new Stack<>();
-        stack.push(graph.get(index));
-        while (!stack.isEmpty()) {
-            Node current = stack.pop();
-            if (!visited.contains(current)) {
-                visited.add(current);
-                for (Node node : graph.get(graph.indexOf(current)).getConnections()) {
-                    stack.push(node);
-                }
-            }
-
-        }
-        return visited.size();
-    }
-
-    public List<Node> traverseGraph() {
+    private List<Node> traverseSubnet(List<Node> subnet) {
         int index = 0;
         List<Node> visited = new ArrayList<>();
         Stack<Node> stack = new Stack<>();
-        stack.push(nodes.get(index));
+        stack.push(subnet.get(index));
         while (!stack.isEmpty()) {
             Node current = stack.pop();
             if (!visited.contains(current)) {
                 visited.add(current);
-                for (Node node : current.getConnections()) {
+                for (Node node : subnet.get(subnet.indexOf(current)).getConnections()) {
                     stack.push(node);
                 }
             }
 
         }
         return visited;
+    }
+
+    private int getSubnetSize(List<Node> graph) {
+        return traverseSubnet(graph).size();
+    }
+
+    public List<Node> traverseGraph() {
+        return traverseSubnet(nodes);
     }
 
     public List<Node> findSPF() {
@@ -61,8 +52,7 @@ public class Graph {
                 testNode.getConnections().remove(node);
             }
             //traverse graph without specified node and add node to SPFs if traversal did not visit every node
-            int index = 0;
-                if (getSubnetSize(index, testList) < testList.size()) {
+            if (getSubnetSize(testList) < testList.size()) {
                 SPFs.add(node);
 
             }
