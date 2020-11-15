@@ -9,6 +9,7 @@ public class Main {
         String filePath = args[0];
         FileReader fileReader = new FileReader(filePath);
         List<List<String>> networks = fileReader.getNetworks();
+
         List<String> nodePairs = networks.get(0);
 
         createView(nodePairs);
@@ -25,7 +26,7 @@ public class Main {
 
 
 
-        }
+
 
 
     private static void findNetworksPOF(List<String> nodePairs) {
@@ -46,6 +47,7 @@ public class Main {
         System.out.println("nodeList = " + network.getNodeList().toString());
         GraphFrame graphFrame = new GraphFrame(new GraphView(graph));
         graphFrame.setVisible(true);
+
 
 
     }

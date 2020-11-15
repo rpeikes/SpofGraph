@@ -9,6 +9,7 @@ import java.util.List;
 public class GraphView extends JComponent {
     public static final Color NODE_COLOR = Color.BLACK;
     public static final Color SPOF_COLOR = Color.RED;
+    public static final Color TEXT_COLOR = Color.WHITE;
     public static final Color LINE_COLOR = Color.BLACK;
     public static final int HEIGHT = 800;
     public static final int WIDTH = 800;
@@ -47,12 +48,6 @@ public class GraphView extends JComponent {
             xCenters[i] = getNodeCenterX(spacer);
             yCenters[i] = getNodeCenterY(spacer);
 
-            //set appropriate color
-            g.setColor(spofs.contains(graphMembers.get(i)) ? SPOF_COLOR : NODE_COLOR);
-
-            //draw the node
-            g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
-
             //draw any connections to existing nodes
             List<Node> connections = graphMembers.get(i).getConnections();
             for (Node connection : connections) {
@@ -65,6 +60,15 @@ public class GraphView extends JComponent {
 
             //add node to list of existing nodes
             drawn.add(graphMembers.get(i));
+        }
+
+        //draw the node
+        for (int i = 0; i < drawn.size(); i++) {
+            g.setColor(spofs.contains(drawn.get(i)) ? SPOF_COLOR : NODE_COLOR);
+            g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
+            g.setColor(TEXT_COLOR);
+            //g.setFont(LABEL_FONT);
+            g.drawString(drawn.get(i).getName(),xCenters[i] , yCenters[i] );
         }
     }
 
