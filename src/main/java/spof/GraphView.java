@@ -67,7 +67,6 @@ public class GraphView extends JComponent {
             g.setColor(spofs.contains(drawn.get(i)) ? SPOF_COLOR : NODE_COLOR);
             g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
             g.setColor(TEXT_COLOR);
-            //g.setFont(LABEL_FONT);
             g.drawString(drawn.get(i).getName(),xCenters[i] , yCenters[i] );
         }
     }
