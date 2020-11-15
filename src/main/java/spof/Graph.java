@@ -55,8 +55,8 @@ public class Graph {
         return traverseSubnet(graph).size();
     }
 
-    public List<Node> traverseGraph() {
-        return traverseSubnet(nodes);
+    public List<Node> getGraph(){
+        return nodes;
     }
 
     public List<Node> findSPF() {
