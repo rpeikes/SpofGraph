@@ -9,6 +9,7 @@ import java.util.List;
 public class GraphView extends JComponent {
     public static final Color NODE_COLOR = Color.BLACK;
     public static final Color SPOF_COLOR = Color.RED;
+    public static final Color TEXT_COLOR = Color.WHITE;
     public static final Color LINE_COLOR = Color.BLACK;
     public static final int HEIGHT = 800;
     public static final int WIDTH = 800;
@@ -65,6 +66,9 @@ public class GraphView extends JComponent {
         for (int i = 0; i < drawn.size(); i++) {
             g.setColor(spofs.contains(drawn.get(i)) ? SPOF_COLOR : NODE_COLOR);
             g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
+            g.setColor(TEXT_COLOR);
+            //g.setFont(LABEL_FONT);
+            g.drawString(drawn.get(i).getName(),xCenters[i] , yCenters[i] );
         }
     }
 
