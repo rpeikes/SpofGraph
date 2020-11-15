@@ -42,9 +42,10 @@ public class GraphView extends JComponent {
 
         for (int i = 0; i < totalNodes; i++) {
             //increment to next spot in the imaginary circle and its center coordinates to the list
-            angleSpace *= i;
-            xCenters[i] = getNodeCenterX(angleSpace);
-            yCenters[i] = getNodeCenterY(angleSpace);
+
+            double spacer = (i != 0 ? angleSpace * i : 0);
+            xCenters[i] = getNodeCenterX(spacer);
+            yCenters[i] = getNodeCenterY(spacer);
 
             //set appropriate color
             g.setColor(spofs.contains(graphMembers.get(i)) ? SPOF_COLOR : NODE_COLOR);
