@@ -24,7 +24,7 @@ public class GraphView extends JComponent {
     }
 
     @Override
-    public void paintComponents(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponents(g);
         paintGraph(g);
     }
@@ -43,8 +43,8 @@ public class GraphView extends JComponent {
         for (int i = 0; i < totalNodes; i++) {
             //increment to next spot in the imaginary circle and its center coordinates to the list
             angleSpace *= i;
-            xCenters[i] = (int) getNodeCenterX(angleSpace);
-            yCenters[i] = (int) getNodeCenterY(angleSpace);
+            xCenters[i] = getNodeCenterX(angleSpace);
+            yCenters[i] = getNodeCenterY(angleSpace);
 
             //set appropriate color
             g.setColor(spofs.contains(graphMembers.get(i)) ? SPOF_COLOR : NODE_COLOR);
@@ -67,11 +67,12 @@ public class GraphView extends JComponent {
     }
 
 
-    private double getNodeCenterX(double angleSpace) {
-        return X_CENTER + GRAPH_RADIUS * Math.cos(angleSpace);
+    //find spot on imaginary circle's circumference using parametric equation
+    private int getNodeCenterX(double angleSpace) {
+        return (int) (X_CENTER + GRAPH_RADIUS * Math.cos(angleSpace));
     }
 
-    private double getNodeCenterY(double angleSpace) {
-        return Y_CENTER + GRAPH_RADIUS * Math.sin(angleSpace);
+    private int getNodeCenterY(double angleSpace) {
+        return (int) (Y_CENTER + GRAPH_RADIUS * Math.sin(angleSpace));
     }
 }
