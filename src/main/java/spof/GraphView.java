@@ -51,7 +51,7 @@ public class GraphView extends JComponent {
             g.setColor(spofs.contains(graphMembers.get(i)) ? SPOF_COLOR : NODE_COLOR);
 
             //draw the node
-            g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, NODE_RADIUS, NODE_RADIUS);
+            g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
 
             //draw any connections to existing nodes
             for (Node connection : graphMembers.get(i).getConnections()) {
