@@ -1,20 +1,54 @@
 package spof;
 
+import java.awt.*;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args){
 
         String filePath = args[0];
-        NodeList nodeList = new NodeList(filePath);
+        FileReader fileReader = new FileReader(filePath);
+        List<List<String>> networks = fileReader.getNetworks();
 
-        List<Node> graphNodeList = nodeList.getNodeList();
-        Graph graph = new Graph(graphNodeList);
+        List<String> nodePairs = networks.get(0);
+
+        createView(nodePairs);
+//
+//        for(int index = 0; index < networks.size(); index++){
+//            List<String> nodePairs = networks.get(index);
+//            if(nodePairs.size() > 0) {
+//                findNetworksPOF(nodePairs);
+//                }
+//            if(index == 0){
+//                createView(nodePairs);
+//            }
+//            }
+
+
+
+
+
+
+    private static void findNetworksPOF(List<String> nodePairs) {
+        Network network = new Network(nodePairs);
+        Graph graph = new Graph(network.getNodeList());
+
         List<Node> SPFs = graph.findSPF();
-        List<Integer> SPFsubnets = graph.getNumSubnets();
-        for(int i = 0; i < SPFs.size(); i++){
-            System.out.println("Network #1:");
-            System.out.println("SPF node " +  SPFs.get(i) + "leaves " + SPFsubnets.get(i)  + "subnets");
-        }
+        System.out.println("SPFS = " + SPFs);
+
+    }
+    private static void createView(List<String> nodePairs){
+        Network network = new Network(nodePairs);
+        Graph graph = new Graph(network.getNodeList());
+
+        List<Node> SPFs = graph.findSPF();
+        System.out.println("SPFS = " + SPFs);
+        System.out.println("nodepairs = " + nodePairs);
+        System.out.println("nodeList = " + network.getNodeList().toString());
+        GraphFrame graphFrame = new GraphFrame(new GraphView(graph));
+        graphFrame.setVisible(true);
+
+
+
     }
 }

@@ -29,6 +29,7 @@ public class Node {
     }
 
     public void addConnection(Node node) {
+
         connections.add(node);
     }
 
