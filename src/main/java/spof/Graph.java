@@ -12,7 +12,7 @@ public class Graph {
     private void removeNode(Node node, List<Node> subnet) {
         subnet.remove(node);
         for (Node testNode : subnet) {
-            testNode.getConnections().remove(node);
+            (testNode.getConnections()).remove(node);
         }
     }
 
@@ -61,6 +61,8 @@ public class Graph {
 
     public List<Node> findSPF() {
         List<Node> SPFs = new ArrayList<>();
+        //We moved testList out of the for loop.
+
 
         for (Node node : nodes) {
             List<Node> testList = new ArrayList<>();
@@ -83,7 +85,9 @@ public class Graph {
 
     public List<Integer> getNumSubnets() {
         List<Node> SPFs = this.findSPF();
+
         List<Integer> SPFnumSubnets = new ArrayList<>();
+
 
         for (Node spf : SPFs) {
             List<Node> testList = new ArrayList<>();
@@ -100,6 +104,7 @@ public class Graph {
             //traverse graph from each node without the spf
             //save paths without dups in a list
             for (int index = 0; index < testList.size(); index++) {
+
                 int duplicates = 0;
                 for (List<Node> path: paths) {
                     if (path.containsAll(traverseSubnet(testList, index))) {
@@ -108,6 +113,7 @@ public class Graph {
                 }
                 if (duplicates == 0) {
                     paths.add(traverseSubnet(testList, index));
+
                 }
             }
             SPFnumSubnets.add(paths.size());
