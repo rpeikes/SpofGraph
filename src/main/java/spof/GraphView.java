@@ -36,8 +36,8 @@ public class GraphView extends JComponent {
         List<Node> graphMembers = graph.getNodes();
         int totalNodes = graphMembers.size();
         List<Node> drawn = new ArrayList<Node>();
-        int[] xCenters = new int[graphMembers.size()];
-        int[] yCenters = new int[graphMembers.size()];
+        int[] xCenters = new int[totalNodes];
+        int[] yCenters = new int[totalNodes];
         double angleSpace = (2 * Math.PI) / totalNodes;
 
 
