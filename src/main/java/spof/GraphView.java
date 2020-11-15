@@ -33,7 +33,7 @@ public class GraphView extends JComponent {
     public void paintGraph(Graphics g) {
 
         List<Node> spofs = graph.findSPF();
-        List<Node> graphMembers = graph.traverseGraph();
+        List<Node> graphMembers = graph.getGraph();
         int totalNodes = graphMembers.size();
         List<Node> drawn = new ArrayList<Node>();
         int[] xCenters = new int[graphMembers.size()];
