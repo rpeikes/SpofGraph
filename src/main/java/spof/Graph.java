@@ -55,7 +55,7 @@ public class Graph {
         return traverseSubnet(graph).size();
     }
 
-    public List<Node> getGraph(){
+    public List<Node> getNodes(){
         return nodes;
     }
 
