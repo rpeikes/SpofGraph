@@ -16,12 +16,11 @@ public class GraphView extends JComponent {
     public static final int X_CENTER = WIDTH / 2;
     public static final int Y_CENTER = HEIGHT / 2;
     public static final int GRAPH_RADIUS = 200;
-
-
     private Graph graph;
 
-    public GraphView(ArrayList<Node> nodes) {
-        this.graph = new Graph((nodes));
+
+    public GraphView(Graph graph) {
+        this.graph = graph;
     }
 
     @Override
@@ -51,13 +50,13 @@ public class GraphView extends JComponent {
             g.setColor(spofs.contains(graphMembers.get(i)) ? SPOF_COLOR : NODE_COLOR);
 
             //draw the node
-            g.fillOval(xCenters[i]-NODE_RADIUS, yCenters[i]-NODE_RADIUS, NODE_RADIUS, NODE_RADIUS);
+            g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, NODE_RADIUS, NODE_RADIUS);
 
             //draw any connections to existing nodes
-            for(Node connection : graphMembers.get(i).getConnections()){
-                if (drawn.contains(connection)){
+            for (Node connection : graphMembers.get(i).getConnections()) {
+                if (drawn.contains(connection)) {
                     g.setColor(LINE_COLOR);
-                    g.drawLine(xCenters[i], yCenters[i],xCenters[graphMembers.get(i).getConnections().indexOf(connection)],
+                    g.drawLine(xCenters[i], yCenters[i], xCenters[graphMembers.get(i).getConnections().indexOf(connection)],
                             yCenters[graphMembers.get(i).getConnections().indexOf(connection)]);
                 }
             }
