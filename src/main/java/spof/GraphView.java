@@ -35,14 +35,14 @@ public class GraphView extends JComponent {
         List<Node> spofs = graph.findSPF();
         List<Node> graphMembers = graph.getNodes();
         int totalNodes = graphMembers.size();
-        List<Node> drawn = new ArrayList<Node>();
-        int[] xCenters = new int[graphMembers.size()];
-        int[] yCenters = new int[graphMembers.size()];
+        List<Node> marked = new ArrayList<Node>();
+        int[] xCenters = new int[totalNodes];
+        int[] yCenters = new int[totalNodes];
         double angleSpace = (2 * Math.PI) / totalNodes;
 
 
         for (int i = 0; i < totalNodes; i++) {
-            //increment to next spot in the imaginary circle and its center coordinates to the list
+            //increment to next spot in the imaginary circle and add its center coordinates to the list
 
             double spacer = (i != 0 ? angleSpace * i : 0);
             xCenters[i] = getNodeCenterX(spacer);
@@ -51,7 +51,7 @@ public class GraphView extends JComponent {
             //draw any connections to existing nodes
             List<Node> connections = graphMembers.get(i).getConnections();
             for (Node connection : connections) {
-                if (drawn.contains(connection)) {
+                if (marked.contains(connection)) {
                     g.setColor(LINE_COLOR);
                     g.drawLine(xCenters[i], yCenters[i], xCenters[graphMembers.indexOf(connection)],
                             yCenters[graphMembers.indexOf(connection)]);
@@ -59,16 +59,15 @@ public class GraphView extends JComponent {
             }
 
             //add node to list of existing nodes
-            drawn.add(graphMembers.get(i));
+            marked.add(graphMembers.get(i));
         }
 
-        //draw the node
-        for (int i = 0; i < drawn.size(); i++) {
-            g.setColor(spofs.contains(drawn.get(i)) ? SPOF_COLOR : NODE_COLOR);
+        //draw the nodes
+        for (int i = 0; i < marked.size(); i++) {
+            g.setColor(spofs.contains(marked.get(i)) ? SPOF_COLOR : NODE_COLOR);
             g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
             g.setColor(TEXT_COLOR);
-            //g.setFont(LABEL_FONT);
-            g.drawString(drawn.get(i).getName(),xCenters[i] , yCenters[i] );
+            g.drawString(marked.get(i).getName(),xCenters[i] , yCenters[i] );
         }
     }
 
