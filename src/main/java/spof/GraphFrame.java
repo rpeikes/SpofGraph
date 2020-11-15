@@ -12,6 +12,7 @@ public class GraphFrame extends JFrame {
     public GraphFrame(GraphView view) {
         this.view = view;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setTitle("SPOF Identifier");
         setSize(view.WIDTH + MARGIN, view.HEIGHT + MARGIN);
         add(view);
         view.repaint();
