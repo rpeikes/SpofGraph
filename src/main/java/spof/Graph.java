@@ -12,7 +12,7 @@ public class Graph {
     private void removeNode(Node node, List<Node> subnet){
         subnet.remove(node);
         for (Node testNode : subnet) {
-            testNode.getConnections().remove(node);
+            (testNode.getConnections()).remove(node);
         }
     }
     private List<Node> traverseSubnet(List<Node> subnet) {
@@ -32,6 +32,7 @@ public class Graph {
         }
         return visited;
     }
+
     private List<Node> traverseSubnet(List<Node> subnet, int index) {
         List<Node> visited = new ArrayList<>();
         Stack<Node> stack = new Stack<>();
@@ -59,6 +60,8 @@ public class Graph {
 
     public List<Node> findSPF() {
         List<Node> SPFs = new ArrayList<>();
+        //We moved testList out of the for loop.
+
 
         for (Node node : nodes) {
             List<Node> testList = new ArrayList<>();
@@ -81,6 +84,7 @@ public class Graph {
 
     public List<Integer> getNumSubnets() {
         List<Node> SPFs = this.findSPF();
+
         List<List<List<Node>>> allSPFpaths = new ArrayList<>();
 
         //traverse graph from each node without the spf
@@ -101,7 +105,7 @@ public class Graph {
             //save paths in a list
             for (int index = 0; index < testList.size(); index++) {
 
-                if (!paths.contains(traverseSubnet(testList,index))) {
+                if (!paths.containsAll(traverseSubnet(testList,index))) {
                     paths.add(traverseSubnet(testList,index));
                 }
 

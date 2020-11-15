@@ -1,50 +1,33 @@
 package spof;
-import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class NodeList {
+public class Network {
+    private List<List<String>> networks;
     private List<Node> nodeList = new ArrayList<>();
-    private List<List<String>> = new ArrayList<>();
     public List<Node> getNodeList() {
         return nodeList;
     }
 
-    public NodeList(String filePath) {
-
-        try {
-            File myObj = new File(filePath);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-//                createNetwork(data);
-                createConnections(data);
+    public Network(List<List<String>> networks) {
+            this.networks = networks;
+            for(int index = 0; index < networks.size(); index++){
+                List<String> network = networks.get(index);
+                if(network.size() > 0){
+                    createConnections(network);
+                }
             }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
 
     }
 
 
-//    private String[] createNetwork(String data){
-//
-//        String[] nodes = data.split(" ");
-//        List<String> network = new ArrayList<>();
-//        if(nodes.length > 1) {
-//            network.add(data);
-//        }
-//    }
 
-    private void createConnections(String data) {
+    private void createConnections(List<String> network) {
 
-        String[] nodes = data.split(" ");
-        if(nodes.length > 1) {
-
+        String[] nodesList = network.get(0).split(",");
+        for(String nodePair: nodesList){
+            String[] nodes = nodePair.split(" ");
             Node firstNode = new Node(nodes[0]);
             Node secondNode = new Node(nodes[1]);
 
