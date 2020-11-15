@@ -4,39 +4,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Network {
-    private List<List<String>> networks;
+
     private List<Node> nodeList = new ArrayList<>();
+
     public List<Node> getNodeList() {
         return nodeList;
     }
 
-    public Network(List<List<String>> networks) {
-            this.networks = networks;
-            for(int index = 0; index < networks.size(); index++){
-                List<String> network = networks.get(index);
-                if(network.size() > 0){
-                    createConnections(network);
-                }
-            }
+    public Network(List<String> nodePairs) {
 
+        createConnections(nodePairs);
     }
 
 
 
-    private void createConnections(List<String> network) {
+    private void createConnections(List<String> nodePairs) {
 
-        String[] nodesList = network.get(0).split(",");
-        for(String nodePair: nodesList){
-            String[] nodes = nodePair.split(" ");
-            Node firstNode = new Node(nodes[0]);
-            Node secondNode = new Node(nodes[1]);
+
+        for(String nodes: nodePairs){
+
+
+            String[] nodeListPairs = nodes.split(" ");
+
+            Node firstNode = new Node(nodeListPairs[0]);
+            Node secondNode = new Node(nodeListPairs[1]);
 
             verifyConnection(firstNode, secondNode);
         }
 
+
     }
 
     private void verifyConnection(Node firstNode, Node secondNode) {
+
         //If nodeList has that node, then don't add it.
         //If node is in list:
         if(nodeList.contains(firstNode)){
@@ -67,6 +67,7 @@ public class Network {
             Node foundNode = nodeList.get(nodeList.indexOf(secondNode));
             foundNode.addConnection(firstNode);
         }
+
 
 
     }
