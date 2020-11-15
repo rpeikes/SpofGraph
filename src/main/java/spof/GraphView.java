@@ -42,7 +42,7 @@ public class GraphView extends JComponent {
 
 
         for (int i = 0; i < totalNodes; i++) {
-            //increment to next spot in the imaginary circle and its center coordinates to the list
+            //increment to next spot in the imaginary circle and add its center coordinates to the list
 
             double spacer = (i != 0 ? angleSpace * i : 0);
             xCenters[i] = getNodeCenterX(spacer);
@@ -62,7 +62,7 @@ public class GraphView extends JComponent {
             drawn.add(graphMembers.get(i));
         }
 
-        //draw the node
+        //draw the nodes
         for (int i = 0; i < drawn.size(); i++) {
             g.setColor(spofs.contains(drawn.get(i)) ? SPOF_COLOR : NODE_COLOR);
             g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
