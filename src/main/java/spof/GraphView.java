@@ -54,11 +54,12 @@ public class GraphView extends JComponent {
             g.fillOval(xCenters[i] - NODE_RADIUS, yCenters[i] - NODE_RADIUS, 2 * NODE_RADIUS, 2 * NODE_RADIUS);
 
             //draw any connections to existing nodes
-            for (Node connection : graphMembers.get(i).getConnections()) {
+            List<Node> connections = graphMembers.get(i).getConnections();
+            for (Node connection : connections) {
                 if (drawn.contains(connection)) {
                     g.setColor(LINE_COLOR);
-                    g.drawLine(xCenters[i], yCenters[i], xCenters[graphMembers.get(i).getConnections().indexOf(connection)],
-                            yCenters[graphMembers.get(i).getConnections().indexOf(connection)]);
+                    g.drawLine(xCenters[i], yCenters[i], xCenters[graphMembers.indexOf(connection)],
+                            yCenters[graphMembers.indexOf(connection)]);
                 }
             }
 
@@ -66,7 +67,6 @@ public class GraphView extends JComponent {
             drawn.add(graphMembers.get(i));
         }
     }
-
 
     //find spot on imaginary circle's circumference using parametric equation
     private int getNodeCenterX(double angleSpace) {
